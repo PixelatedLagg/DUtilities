@@ -5,22 +5,22 @@ namespace DUtilities.Events
 {
     public class MemberRoleRemovedArgs : AsyncEventArgs
     {
-        public DiscordRole? Role
+        public DiscordRole Role
         {
             get;
             internal set;
         }
-        public DiscordMember? Member
+        public DiscordMember Member
         {
             get;
             internal set;
         }
-        public DiscordGuild? Guild
+        public DiscordGuild Guild
         {
             get;
             internal set;
         }
-        internal MemberRoleRemovedArgs(DiscordRole? role, DiscordMember member, DiscordGuild guild) : base()
+        internal MemberRoleRemovedArgs(DiscordRole role, DiscordMember member, DiscordGuild guild) : base()
         {
             Role = role;
             Member = member;

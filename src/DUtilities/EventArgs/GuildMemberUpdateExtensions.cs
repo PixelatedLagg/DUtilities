@@ -5,7 +5,7 @@ namespace DUtilities
 {
     public static class GuildMemberUpdateExtensions
     {
-        public static DiscordRole? GetChangedRole(this GuildMemberUpdateEventArgs args)
+        public static DiscordRole GetChangedRole(this GuildMemberUpdateEventArgs args)
         {
             if (args.RolesAfter.Count > args.RolesBefore.Count)
             {
@@ -27,7 +27,7 @@ namespace DUtilities
                     }
                 }
             }
-            return null;
+            throw new Exception("No roles have changed!");
         }
         public static UpdateType GetUpdateType(this GuildMemberUpdateEventArgs args)
         {
