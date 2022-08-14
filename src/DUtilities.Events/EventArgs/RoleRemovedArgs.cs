@@ -3,7 +3,7 @@ using DSharpPlus.Entities;
 
 namespace DUtilities.Events
 {
-    public class MemberRoleRemovedArgs : AsyncEventArgs
+    public class RoleRemovedArgs : AsyncEventArgs
     {
         public DiscordRole Role
         {
@@ -20,7 +20,7 @@ namespace DUtilities.Events
             get;
             internal set;
         }
-        internal MemberRoleRemovedArgs(DiscordRole role, DiscordMember member, DiscordGuild guild) : base()
+        internal RoleRemovedArgs(DiscordRole role, DiscordMember member, DiscordGuild guild) : base()
         {
             Role = role;
             Member = member;

@@ -3,14 +3,9 @@ using DSharpPlus.Entities;
 
 namespace DUtilities.Events
 {
-    public class MemberNicknameUpdatedArgs : AsyncEventArgs
+    public class RoleAddedArgs : AsyncEventArgs
     {
-        public string NewNickname
-        {
-            get;
-            internal set;
-        }
-        public string OldNickname
+        public DiscordRole Role
         {
             get;
             internal set;
@@ -25,10 +20,9 @@ namespace DUtilities.Events
             get;
             internal set;
         }
-        internal MemberNicknameUpdatedArgs(string newNickname, string oldNickname, DiscordMember member, DiscordGuild guild) : base()
+        internal RoleAddedArgs(DiscordRole role, DiscordMember member, DiscordGuild guild) : base()
         {
-            NewNickname = newNickname;
-            OldNickname = oldNickname;
+            Role = role;
             Member = member;
             Guild = guild;
         }

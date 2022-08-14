@@ -9,23 +9,29 @@ namespace DUtilities.Events
     public static class SpecificEvents
     {
         private static TimeSpan Limit = TimeSpan.FromSeconds(1);
-        private static AsyncEvent<DiscordClient, MemberRoleAddedArgs> _MemberRoleAdded = new AsyncEvent<DiscordClient, MemberRoleAddedArgs>("MEMBER_ROLE_ADDED", Limit, SpecificEventErrorHandler);
-        public static event AsyncEventHandler<DiscordClient, MemberRoleAddedArgs> MemberRoleAdded
+        private static AsyncEvent<DiscordClient, RoleAddedArgs> _MemberRoleAdded = new AsyncEvent<DiscordClient, RoleAddedArgs>("MEMBER_ROLE_ADDED", Limit, SpecificEventErrorHandler);
+        public static event AsyncEventHandler<DiscordClient, RoleAddedArgs> MemberRoleAdded
         {
             add => _MemberRoleAdded.Register(value);
             remove => _MemberRoleAdded.Unregister(value);
         }
-        private static AsyncEvent<DiscordClient, MemberRoleRemovedArgs> _MemberRoleRemoved = new AsyncEvent<DiscordClient, MemberRoleRemovedArgs>("MEMBER_ROLE_REMOVED", Limit, SpecificEventErrorHandler);
-        public static event AsyncEventHandler<DiscordClient, MemberRoleRemovedArgs> MemberRoleRemoved
+        private static AsyncEvent<DiscordClient, RoleRemovedArgs> _MemberRoleRemoved = new AsyncEvent<DiscordClient, RoleRemovedArgs>("MEMBER_ROLE_REMOVED", Limit, SpecificEventErrorHandler);
+        public static event AsyncEventHandler<DiscordClient, RoleRemovedArgs> MemberRoleRemoved
         {
             add => _MemberRoleRemoved.Register(value);
             remove => _MemberRoleRemoved.Unregister(value);
         }
-        private static AsyncEvent<DiscordClient, MemberNicknameUpdatedArgs> _MemberNicknameUpdated = new AsyncEvent<DiscordClient, MemberNicknameUpdatedArgs>("MEMBER_NICKNAME_UPDATED", Limit, SpecificEventErrorHandler);
-        public static event AsyncEventHandler<DiscordClient, MemberNicknameUpdatedArgs> MemberNicknameUpdated
+        private static AsyncEvent<DiscordClient, NicknameUpdatedArgs> _MemberNicknameUpdated = new AsyncEvent<DiscordClient, NicknameUpdatedArgs>("MEMBER_NICKNAME_UPDATED", Limit, SpecificEventErrorHandler);
+        public static event AsyncEventHandler<DiscordClient, NicknameUpdatedArgs> MemberNicknameUpdated
         {
             add => _MemberNicknameUpdated.Register(value);
             remove => _MemberNicknameUpdated.Unregister(value);
+        }
+        private static AsyncEvent<DiscordClient, AvatarHashUpdatedArgs> _MemberAvatarHashUpdated = new AsyncEvent<DiscordClient, AvatarHashUpdatedArgs>("MEMBER_AVATAR_HASH_UPDATED", Limit, SpecificEventErrorHandler);
+        public static event AsyncEventHandler<DiscordClient, AvatarHashUpdatedArgs> MemberAvatarHashUpdated
+        {
+            add => _MemberAvatarHashUpdated.Register(value);
+            remove => _MemberAvatarHashUpdated.Unregister(value);
         }
 
         public static void UseSpecificEvents(this DiscordClient client)
@@ -45,17 +51,23 @@ namespace DUtilities.Events
         {
             if (args.RolesAfter.Count > args.RolesBefore.Count)
             {
-                await _MemberRoleAdded.InvokeAsync(client, new MemberRoleAddedArgs(args.GetChangedRole(), args.Member, args.Guild));
+                await _MemberRoleAdded.InvokeAsync(client, new RoleAddedArgs(args.GetChangedRole(), args.Member, args.Guild));
                 return;
             }
             if (args.RolesAfter.Count < args.RolesBefore.Count)
             {
-                await _MemberRoleRemoved.InvokeAsync(client, new MemberRoleRemovedArgs(args.GetChangedRole(), args.Member, args.Guild));
+                await _MemberRoleRemoved.InvokeAsync(client, new RoleRemovedArgs(args.GetChangedRole(), args.Member, args.Guild));
                 return;
             }
             if (args.NicknameAfter != args.NicknameBefore)
             {
-                await _MemberNicknameUpdated.InvokeAsync(client, new MemberNicknameUpdatedArgs(args.NicknameAfter, args.NicknameBefore, args.Member, args.Guild));
+                await _MemberNicknameUpdated.InvokeAsync(client, new NicknameUpdatedArgs(args.NicknameAfter, args.NicknameBefore, args.Member, args.Guild));
+                return;
+            }
+            if (args.AvatarHashAfter != args.AvatarHashBefore)
+            {
+                await _MemberAvatarHashUpdated.InvokeAsync(client, new AvatarHashUpdatedArgs(args.AvatarHashAfter, args.AvatarHashBefore, args.Member, args.Guild));
+                return;
             }
         }
     }
