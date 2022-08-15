@@ -33,6 +33,12 @@ namespace DUtilities.Events
             add => _MemberAvatarHashUpdated.Register(value);
             remove => _MemberAvatarHashUpdated.Unregister(value);
         }
+        private static AsyncEvent<DiscordClient, PendingUpdatedArgs> _MemberPendingUpdated = new AsyncEvent<DiscordClient, PendingUpdatedArgs>("MEMBER_PENDING_UPDATED", Limit, SpecificEventErrorHandler);
+        public static event AsyncEventHandler<DiscordClient, PendingUpdatedArgs> MemberPendingUpdated
+        {
+            add => _MemberPendingUpdated.Register(value);
+            remove => _MemberPendingUpdated.Unregister(value);
+        }
 
         public static void UseSpecificEvents(this DiscordClient client)
         {
@@ -67,6 +73,11 @@ namespace DUtilities.Events
             if (args.AvatarHashAfter != args.AvatarHashBefore)
             {
                 await _MemberAvatarHashUpdated.InvokeAsync(client, new AvatarHashUpdatedArgs(args.AvatarHashAfter, args.AvatarHashBefore, args.Member, args.Guild));
+                return;
+            }
+            if (args.PendingAfter != args.PendingBefore)
+            {
+                await _MemberPendingUpdated.InvokeAsync(client, new PendingUpdatedArgs(args.PendingAfter ?? false, args.Member, args.Guild));
                 return;
             }
         }
