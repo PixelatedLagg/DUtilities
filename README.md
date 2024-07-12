@@ -1,5 +1,5 @@
 # DUtilities
-Some convenient utilities for DSharpPlus.
+Some convenient utilities for DSharpPlus. Get it from [nuget](https://www.nuget.org/packages/DUtilities).
 
 ### Event Hooks
 
