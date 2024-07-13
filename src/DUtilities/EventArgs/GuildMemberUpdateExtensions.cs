@@ -1,5 +1,7 @@
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using System.Linq;
+using System;
 
 namespace DUtilities
 {

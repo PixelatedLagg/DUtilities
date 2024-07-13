@@ -3,6 +3,7 @@ using DSharpPlus;
 using Emzi0767.Utilities;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using System.Threading.Tasks;
 
 namespace DUtilities.Events
 {
@@ -15,24 +16,28 @@ namespace DUtilities.Events
             add => _MemberRoleAdded.Register(value);
             remove => _MemberRoleAdded.Unregister(value);
         }
+
         private static AsyncEvent<DiscordClient, RoleRemovedArgs> _MemberRoleRemoved = new AsyncEvent<DiscordClient, RoleRemovedArgs>("MEMBER_ROLE_REMOVED", Limit, SpecificEventErrorHandler);
         public static event AsyncEventHandler<DiscordClient, RoleRemovedArgs> MemberRoleRemoved
         {
             add => _MemberRoleRemoved.Register(value);
             remove => _MemberRoleRemoved.Unregister(value);
         }
+
         private static AsyncEvent<DiscordClient, NicknameUpdatedArgs> _MemberNicknameUpdated = new AsyncEvent<DiscordClient, NicknameUpdatedArgs>("MEMBER_NICKNAME_UPDATED", Limit, SpecificEventErrorHandler);
         public static event AsyncEventHandler<DiscordClient, NicknameUpdatedArgs> MemberNicknameUpdated
         {
             add => _MemberNicknameUpdated.Register(value);
             remove => _MemberNicknameUpdated.Unregister(value);
         }
+
         private static AsyncEvent<DiscordClient, AvatarHashUpdatedArgs> _MemberAvatarHashUpdated = new AsyncEvent<DiscordClient, AvatarHashUpdatedArgs>("MEMBER_AVATAR_HASH_UPDATED", Limit, SpecificEventErrorHandler);
         public static event AsyncEventHandler<DiscordClient, AvatarHashUpdatedArgs> MemberAvatarHashUpdated
         {
             add => _MemberAvatarHashUpdated.Register(value);
             remove => _MemberAvatarHashUpdated.Unregister(value);
         }
+
         private static AsyncEvent<DiscordClient, PendingUpdatedArgs> _MemberPendingUpdated = new AsyncEvent<DiscordClient, PendingUpdatedArgs>("MEMBER_PENDING_UPDATED", Limit, SpecificEventErrorHandler);
         public static event AsyncEventHandler<DiscordClient, PendingUpdatedArgs> MemberPendingUpdated
         {
@@ -44,6 +49,7 @@ namespace DUtilities.Events
         {
             client.GuildMemberUpdated += GuildMemberUpdated;
         }
+
         private static void SpecificEventErrorHandler<TSender, TArgs>(AsyncEvent<TSender, TArgs> asyncEvent, Exception ex, AsyncEventHandler<TSender, TArgs> handler, TSender sender, TArgs eventArgs) where TArgs : AsyncEventArgs
         {
             if (ex is AsyncEventTimeoutException)
@@ -51,8 +57,9 @@ namespace DUtilities.Events
                 Console.WriteLine($"An event handler for {asyncEvent.Name} took too long to execute.");
                 return;
             }
-            Console.WriteLine("Event handler exception thrown");
+            Console.WriteLine("Event handler exception thrown!");
         }
+        
         private static async Task GuildMemberUpdated(DiscordClient client, GuildMemberUpdateEventArgs args)
         {
             if (args.RolesAfter.Count > args.RolesBefore.Count)
